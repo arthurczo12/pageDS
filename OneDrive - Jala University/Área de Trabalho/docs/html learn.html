@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<link rel = "stylesheet" href = "edit.css">
+</head>
+<body>
+ <h1>Daily Activity Recording Application</h1>
+ <section>
+<p>
+Objetivo: aplicação simples para registrar tarefas diárias com autenticação de usuários.
+Conteúdo do repositório: <br>
+<h4>docs/arquitetura: diagramas C4 (Context e Containers)</h4> <br>
+<h4>docs/uml: diagramas UML em Mermaid</h4> <br>
+<h4>docs/adr: Architectural Decision Records (decisões técnicas)</h4> <br>
+</p>
+  </section>
+    <section>
+<h2> C4 Context</h2> 
+<p>Sistema: Daily Activity Recording Application <br>
+Atores: Usuário (pessoa que registra/visualiza/gera/gera tarefas) <br>
+Resumo (alto nível): O usuário utiliza um cliente (navegador ou app mobile) para: <br>
+Registrar-se e autenticar <br>
+Criar, listar, concluir e excluir tarefas</p>
+<img src = "diagramaC4-Context.png" height="300" width="300"> 
+</section>
+<section>
+<h3> C4 Container</h3>
+<p>
+Lista de contêineres principais: <br>
+Front-end (Web/Mobile) <br>
+Tecnologias: React (Web) ou Flutter (Mobile) / HTML/CSS/JS <br>
+Responsabilidade: UI para login, registro e gerenciamento de tarefas<br>
+API REST (Back-end)<br>
+Tecnologias: Java + Spring Boot (exemplo)<br>
+Responsabilidade: Expor endpoints para CRUD de usuários e tarefas<br>
+Database (RDBMS)<br>
+Tecnologias: MySQL<br>
+Responsabilidade: Persistência de usuários, tarefas e tokens (se aplicável)<br>
+</p>  
+<img src = "C4 Container .png" height="490" width="400">
+</section>
+<section>
+<h2>Diagrama de Sequência (Mermaid)</h2>
+<img src="uml fluxo code.png" height="640" width="725">
+<h2>Diagrama de Casos de Uso (Mermaid)</h2>
+<img src="Fluxo task.png" height="100" width="550"> <br>
+</section>
+<section>
+<h2>ADR 0001 – Estilo arquitetural: Monolito modular com API REST</h2>
+<p>
+Status: Aprovado<br>
+
+Data: 2025-09-06<br>
+
+Autores: Arthur Oliveira, Ilmara Guimaraes, Sophia Goulart<br>
+
+
+<h3>Contexto</h3>
+<p>Projeto acadêmico/pequeno para registro de atividades diárias. Objetivo: entrega rápida, manutenção simples e deploy fácil.</p>
+
+<h3>Decisão</h3>
+<p>Aplicação monolítica modular com uma API REST que será consumida pelo front-end (react/flutter).</p>
+
+<h3>Alternativas Consideradas</h3>
+<p>Microservices — Pró: escala independente; Contra: complexidade, overhead operacional.<br>
+Single page app + Backend monolítico — Pró: entrega rápida ; Contra: limitação de escala granular.</p>
+
+
+<h3>Consequências</h3>
+
+<p>Simples deploy (um artefato backend + frontend estático).<br>
+Se precisar escalar, possivelmente separar serviços no futuro.<br>
+</p>
+
+<h2>ADR 0002 – Framework do backend: Java + Spring Boot</h2>
+<p>
+Status: Aprovado<br>
+
+Data: 2025-09-06<br>
+
+Autores: Arthur Oliveira, Ilmara Guimaraes, Sophia Goulart<br>
+
+
+<h3>Contexto</h3>
+<p>Equipe com conhecimento em Java; objetivo de usar algo maduro para REST, segurança e JPA.</p>
+
+<h3>Decisão</h3>
+<p>Usar Java + Spring Boot para API REST.</p>
+
+<h3>Alternativas Consideradas</h3>
+<p>
+Node.js + Express — mais leve, rápida prototipagem; time prefere Java.<br>
+
+.NET Core — bom, mas não é linguagem principal do time. <br>
+
+Go — performático, porém curva de aprendizado maior para o time.</p>
+
+
+<h3>Consequências</h3>
+
+<p>Uso de Spring Security, Spring Data JPA e ecosystem maduro.<br>
+Necessidade de construir Dockerfile e pipeline CI.</p><br>
+
+<h2>ADR 0003 – Banco de dados: MySQL</h2>
+<p>
+Status: Aprovado<br>
+
+Data: 2025-09-06<br>
+
+Autores: Arthur Oliveira, Ilmara Guimaraes, Sophia Goulart<br>
+
+
+<h3>Contexto</h3>
+<p>Aplicação com relacionamentos simples (usuário ↔️ tarefas) e necessidade de consultas ACID.</p>
+
+<h3>Decisão</h3>
+<p>Usar MySQL como RDBMS.</p>
+
+<h3>Alternativas Consideradas</h3>
+<p>
+MongoDB — melhor para documentos, porém junções e relacionamentos de usuário/tarefa são triviais em SQL.<br>
+SQLite — bom para protótipo local, mas não para produção concorrente.</p>
+
+<h3>Consequências</h3>
+
+<p>Modelagem relacional, uso de índices em user_id e createdAt. <br>
+Necessidade de backups e migrações (usar Flyway ou Liquibase).</p><br>
+</p>
+</section>
+</body>
+
+</html>
